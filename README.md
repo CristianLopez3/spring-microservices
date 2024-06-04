@@ -21,3 +21,7 @@
   - Test Controllers
   - Mock Persistence
   - Dockerfile
+
+* **[`Eureka Server`](https://github.com/CristianLopez3/spring-microservices/tree/eureka-server)**
+  - Basic Explanation
+  - Basic Configuration
