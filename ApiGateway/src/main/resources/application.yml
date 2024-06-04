@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+      routes[0]:
+        id: users-status-check
+        uri: lb://users-ws # lb (load balancer)
+        predicates:
+          - Path=/users/status/check
+          - Method=GET # POST, PUT, DELETE
+        filters:
+          - RemoveRequestHeader=Cookie
+#          - RewritePath=/users-ws(?<segment>/?.*), /$\{segment}
+
+
+
+server:
+  port: 8082
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8010/eureka/
+
+
