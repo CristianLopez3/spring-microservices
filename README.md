@@ -14,7 +14,7 @@
 
 ## Branches and Their Content:
 
-* **[`Spring-basic`](https://github.com/CristianLopez3/spring-microservices/tree/basic-spring)**:
+* **[Spring-basic](https://github.com/CristianLopez3/spring-microservices/tree/basic-spring)**:
 
   - Basics Controllers
   - Exception Handling
@@ -22,6 +22,8 @@
   - Mock Persistence
   - Dockerfile
 
-* **[`Eureka Server`](https://github.com/CristianLopez3/spring-microservices/tree/eureka-server)**
+* **[Eureka Server](https://github.com/CristianLopez3/spring-microservices/tree/eureka-server)**
   - Basic Explanation
   - Basic Configuration
+  - Services:
+     - [Eureka Users](https://github.com/CristianLopez3/spring-microservices/tree/eureka-server-users)
