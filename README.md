@@ -27,3 +27,4 @@
   - Basic Configuration
   - Services:
      - [Eureka Users](https://github.com/CristianLopez3/spring-microservices/tree/eureka-server-users)
+     - [Eureka Account](https://github.com/CristianLopez3/spring-microservices/tree/eureka-server-account)
