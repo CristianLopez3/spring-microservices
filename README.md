@@ -7,24 +7,17 @@
 </div>
 
 
-### Content
+### Content 🔖
 
 1. [Microservices explanation](./docs/microservices.md)
 
 
-## Branches and Their Content:
 
-* **[Spring-basic](https://github.com/CristianLopez3/spring-microservices/tree/basic-spring)**:
+### [Course Project 🛠️](https://github.com/CristianLopez3/spring-microservices/tree/basic-microservice)
 
-  - Basics Controllers
-  - Exception Handling
-  - Test Controllers
-  - Mock Persistence
-  - Dockerfile
+Let's dive into the project building in the course: 
 
-* **[Eureka Server](https://github.com/CristianLopez3/spring-microservices/tree/eureka-server)**
-  - Basic Explanation
-  - Basic Configuration
-  - Services:
-     - [Eureka Users](https://github.com/CristianLopez3/spring-microservices/tree/eureka-server-users)
-     - [Eureka Account](https://github.com/CristianLopez3/spring-microservices/tree/eureka-server-account)
+* Eureka Server 🗄️
+* Eureka Users 🧔
+* Managment Account 👤
+* Cloud Gateway 🚧
