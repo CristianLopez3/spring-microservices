@@ -1,7 +1,0 @@
-spring:
-
-  application:
-    name: mobile-app-ws
-
-  profiles:
-    active: dev

@@ -14,7 +14,7 @@
     <name>PhotoAppApiUsers</name>
     <description>PhotoAppApiUsers</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <spring-cloud.version>2023.0.2</spring-cloud.version>
     </properties>
     <dependencies>
