@@ -4,7 +4,6 @@ import com.appdevlopers.api.users.photoappapiusers.service.UsersService;
 import com.appdevlopers.api.users.photoappapiusers.shared.UserDto;
 import com.appdevlopers.api.users.photoappapiusers.ui.model.CreateUserRequestModel;
 import com.appdevlopers.api.users.photoappapiusers.ui.model.CreateUserResponseModel;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
