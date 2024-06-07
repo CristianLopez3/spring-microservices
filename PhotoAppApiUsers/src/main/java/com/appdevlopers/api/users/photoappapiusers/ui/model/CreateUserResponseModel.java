@@ -1,10 +1,16 @@
 package com.appdevlopers.api.users.photoappapiusers.ui.model;
 
-public record CreateUserResponseModel(
-        String firstName,
-        String lastName,
-        String email,
-        String userId) {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class CreateUserResponseModel {
+
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String userId;
 
 }
 

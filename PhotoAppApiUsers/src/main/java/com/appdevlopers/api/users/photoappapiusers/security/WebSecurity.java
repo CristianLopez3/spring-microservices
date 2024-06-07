@@ -16,11 +16,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurity {
 
 
-    private Environment environment;
-
-    public WebSecurity(Environment environment) {
-        this.environment = environment;
-    }
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -29,9 +24,10 @@ public class WebSecurity {
 
         http
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers(new AntPathRequestMatcher("/users/**"))
-                        .access(new WebExpressionAuthorizationManager("hasIpAddress('"+environment.getProperty("gateway.ip")+"')"))
-                        .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll())
+                        .requestMatchers(new AntPathRequestMatcher("/users/**")).permitAll()
+//                        .access(new WebExpressionAuthorizationManager("hasIpAddress(\"192.168.0.0/16\") or hasIpA1ddress(\"127.0.0.0/16\")"))
+//                        .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                )
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

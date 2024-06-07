@@ -15,13 +15,17 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
-@RequiredArgsConstructor
 public class UsersController {
 
 
-    private Environment env;
-    UsersService usersService;
+    private final Environment env;
+    private final UsersService usersService;
 
+    @Autowired
+    public UsersController(Environment env, UsersService usersService) {
+        this.env = env;
+        this.usersService = usersService;
+    }
 
     @GetMapping("/status/check")
     public String status() {

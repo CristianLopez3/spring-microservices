@@ -1,0 +1,15 @@
+services:
+  database:
+    image: mysql:8.0.33
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345678
+      - MYSQL_PASSWORD=12345678
+      - MYSQL_DATABASE=db_project
+      #- MYSQL_USER=root
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10

@@ -14,11 +14,11 @@ spring:
         id: users-status-check
         uri: lb://users-ws # lb (load balancer)
         predicates:
-          - Path=/users/status/check
-          - Method=GET # POST, PUT, DELETE
+          - Path=/users/**
+          - Method=GET, POST, PUT, DELETE
         filters:
           - RemoveRequestHeader=Cookie
-#          - RewritePath=/users-ws(?<segment>/?.*), /$\{segment}
+          - RewritePath=/users-ws(?<segment>/?.*), /$\{segment}
 
 
 
