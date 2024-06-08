@@ -16,9 +16,13 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import java.util.Objects;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurity {
+
+
 
     private final Environment env;
     private final UsersService usersService;
@@ -34,7 +38,9 @@ public class WebSecurity {
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
-        // Configure Authentication Manager Buuilder
+        String URL_PATH = Objects.requireNonNull(env.getProperty("login.url.path"));
+
+        // Configure Authentication Manager Builder
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
 
@@ -43,14 +49,19 @@ public class WebSecurity {
                 .passwordEncoder(bCryptPasswordEncoder);
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
+        // Create Authentication Filter
+        AuthenticationFilter authenticationFilter =
+                new AuthenticationFilter(usersService, env, authenticationManager);
+        authenticationFilter.setFilterProcessesUrl(URL_PATH);
+
         http.csrf(AbstractHttpConfigurer::disable);
 
         http
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers(new AntPathRequestMatcher("/users/**"))
-                                .access(new WebExpressionAuthorizationManager("hasIpAddress('" + env.getProperty("gateway.ip") + "')"))
+                        .access(new WebExpressionAuthorizationManager("hasIpAddress('" + env.getProperty("gateway.ip") + "')"))
                 )
-                .addFilter(new AuthenticationFilter(usersService, env, authenticationManager))
+                .addFilter(authenticationFilter)
                 .authenticationManager(authenticationManager)
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));

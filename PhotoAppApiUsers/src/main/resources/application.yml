@@ -39,4 +39,8 @@ gateway:
 
 token:
   expiration_time: 86400000
-  secret: ${SECRET_KEY:a32lakskskn28sknajd2alkn29al}
+  secret: ${SECRET_KEY:KW&2N@T2q&njW'-(XBieYdR&KJ)1ZlEN>ZukA0nAtWmF+WJU#c0W6[ULgnYh<f+}
+
+login:
+  url:
+    path: /users/login

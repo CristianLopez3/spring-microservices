@@ -1,3 +1,11 @@
+server:
+  port: 8082
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8010/eureka/
+
 spring:
   application:
     name: api-gateway
@@ -14,20 +22,32 @@ spring:
         id: users-status-check
         uri: lb://users-ws # lb (load balancer)
         predicates:
-          - Path=/users/**
-          - Method=GET, POST, PUT, DELETE
+          - Path=/users/status/check
+          - Method=GET
+        filters:
+          - RemoveRequestHeader=Cookie
+          - RewritePath=/users-ws(?<segment>/?.*), /$\{segment}
+
+      routes[1]:
+        id: users-ws
+        uri: lb://users-ws # lb (load balancer)
+        predicates:
+          - Path=/users-ws/users
+          - Method=POST
+        filters:
+          - RemoveRequestHeader=Cookie
+          - RewritePath=/users-ws(?<segment>/?.*), /$\{segment}
+
+      routes[2]:
+        id: users-ws-login
+        uri: lb://users-ws # lb (load balancer)
+        predicates:
+          - Path=/users-ws/users/login
+          - Method=POST
         filters:
           - RemoveRequestHeader=Cookie
           - RewritePath=/users-ws(?<segment>/?.*), /$\{segment}
 
 
-
-server:
-  port: 8082
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8010/eureka/
 
 

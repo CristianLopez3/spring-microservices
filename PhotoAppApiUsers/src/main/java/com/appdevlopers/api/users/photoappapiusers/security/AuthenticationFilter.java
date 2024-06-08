@@ -86,19 +86,20 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                 environment.getProperty("token.expiration_time")))));
 
         String tokenSecret = Objects.requireNonNull(environment.getProperty("token.secret"));
-        byte[] secretBytes = Base64.getDecoder().decode(tokenSecret.getBytes());
-        SecretKey secretKey = new SecretKeySpec(secretBytes, HS512.getJcaName());
+        byte[] secretBytes = Base64.getEncoder().encode(tokenSecret.getBytes());
+        SecretKey secretKey = new SecretKeySpec(secretBytes, SignatureAlgorithm.HS512.getJcaName());
 
 
         String token = Jwts.builder()
                 .subject(userDetails.getUserId())
                 .expiration(expiration)
                 .issuedAt(Date.from(Instant.now()))
-                .signWith(secretKey)
+                .signWith(secretKey, SignatureAlgorithm.HS512)
                 .compact();
 
         response.addHeader("token", token);
         response.addHeader("userId", userDetails.getUserId());
+
     }
 
 
