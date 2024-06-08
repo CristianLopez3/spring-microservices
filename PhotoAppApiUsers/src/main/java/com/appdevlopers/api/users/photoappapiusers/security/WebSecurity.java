@@ -22,8 +22,6 @@ import java.util.Objects;
 @EnableWebSecurity
 public class WebSecurity {
 
-
-
     private final Environment env;
     private final UsersService usersService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -34,28 +32,32 @@ public class WebSecurity {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        AuthenticationManager authenticationManager = configureAuthenticationManager(http);
+        AuthenticationFilter authenticationFilter = createAuthenticationFilter(authenticationManager);
+        configureHttpRoutes(http, authenticationFilter, authenticationManager);
+        configureHttpHeaders(http);
+        return http.build();
+    }
 
-        String URL_PATH = Objects.requireNonNull(env.getProperty("login.url.path"));
-
-        // Configure Authentication Manager Builder
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
-
+    private AuthenticationManager configureAuthenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder
                 .userDetailsService(usersService)
                 .passwordEncoder(bCryptPasswordEncoder);
-        AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
+        return authenticationManagerBuilder.build();
+    }
 
-        // Create Authentication Filter
-        AuthenticationFilter authenticationFilter =
-                new AuthenticationFilter(usersService, env, authenticationManager);
+    private AuthenticationFilter createAuthenticationFilter(AuthenticationManager authenticationManager) {
+        String URL_PATH = Objects.requireNonNull(env.getProperty("login.url.path"));
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(usersService, env, authenticationManager);
         authenticationFilter.setFilterProcessesUrl(URL_PATH);
+        return authenticationFilter;
+    }
 
+    private void configureHttpRoutes(HttpSecurity http, AuthenticationFilter authenticationFilter, AuthenticationManager authenticationManager) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
-
         http
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers(new AntPathRequestMatcher("/users/**"))
@@ -65,14 +67,10 @@ public class WebSecurity {
                 .authenticationManager(authenticationManager)
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-
-        http.headers((headers) -> headers.frameOptions((frameOptions) -> frameOptions.sameOrigin()));
-
-        return http.build();
-
     }
 
-
+    private void configureHttpHeaders(HttpSecurity http) throws Exception {
+        http.headers((headers) -> headers.frameOptions((frameOptions) -> frameOptions.sameOrigin()));
+    }
 }
 

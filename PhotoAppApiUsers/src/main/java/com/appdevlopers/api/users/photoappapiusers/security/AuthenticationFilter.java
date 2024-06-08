@@ -29,6 +29,7 @@ import java.util.Objects;
 
 import static io.jsonwebtoken.SignatureAlgorithm.HS512;
 
+
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final UsersService usersService;
@@ -37,7 +38,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public AuthenticationFilter(
             UsersService usersService,
             Environment environment,
-            AuthenticationManager authenticationManager){
+            AuthenticationManager authenticationManager) {
 
         super(authenticationManager);
         this.usersService = usersService;
@@ -68,40 +69,56 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 
     @Override
-    protected  void successfulAuthentication(
+    protected void successfulAuthentication(
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain chain,
             Authentication auth
     ) throws IOException, ServletException {
 
-        String userName = ((User) auth.getPrincipal()).getUsername();
+        String userName = getUserNameFromAuthentication(auth);
         UserDto userDetails = usersService.getUserDetailsByEmail(userName);
 
+        SecretKey secretKey = getSecretKeyFromEnvironment();
+        Date expiration = getExpirationDateFromEnvironment();
 
-        Date expiration =  Date.from(
-                Instant.now()
-                .plusMillis(
-                        Long.parseLong(Objects.requireNonNull(
-                                environment.getProperty("token.expiration_time")))));
+        String token = generateToken(userDetails, secretKey, expiration);
 
+        addTokenToResponseHeader(response, token);
+        addUserIdToResponseHeader(response, userDetails.getUserId());
+    }
+
+    private String getUserNameFromAuthentication(Authentication auth) {
+        return ((User) auth.getPrincipal()).getUsername();
+    }
+
+    private SecretKey getSecretKeyFromEnvironment() {
         String tokenSecret = Objects.requireNonNull(environment.getProperty("token.secret"));
         byte[] secretBytes = Base64.getEncoder().encode(tokenSecret.getBytes());
-        SecretKey secretKey = new SecretKeySpec(secretBytes, SignatureAlgorithm.HS512.getJcaName());
+        return new SecretKeySpec(secretBytes, HS512.getJcaName());
+    }
 
+    private Date getExpirationDateFromEnvironment() {
+        return Date.from(Instant.now().plusMillis(Long.parseLong(Objects.requireNonNull(environment
+                .getProperty("token.expiration_time")))));
+    }
 
-        String token = Jwts.builder()
+    private String generateToken(UserDto userDetails, SecretKey secretKey, Date expiration) {
+        return Jwts.builder()
                 .subject(userDetails.getUserId())
                 .expiration(expiration)
                 .issuedAt(Date.from(Instant.now()))
-                .signWith(secretKey, SignatureAlgorithm.HS512)
+                .signWith(secretKey)
                 .compact();
-
-        response.addHeader("token", token);
-        response.addHeader("userId", userDetails.getUserId());
-
     }
 
+    private void addTokenToResponseHeader(HttpServletResponse response, String token) {
+        response.addHeader("token", token);
+    }
+
+    private void addUserIdToResponseHeader(HttpServletResponse response, String userId) {
+        response.addHeader("userId", userId);
+    }
 
 }
 
