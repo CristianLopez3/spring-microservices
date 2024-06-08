@@ -36,3 +36,7 @@ eureka:
 
 gateway:
   ip: 192.168.20.25
+
+token:
+  expiration_time: 86400000
+  secret: ${SECRET_KEY:a32lakskskn28sknajd2alkn29al}
