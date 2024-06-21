@@ -6,9 +6,9 @@ import com.easybytes.accounts.entity.Accounts;
 public class AccountsMapper {
 
     public static AccountsDto mapToAccountsDto(Accounts accounts, AccountsDto accountsDto) {
-        accountsDto.setAccountNumber(accountsDto.getAccountNumber());
-        accountsDto.setAccountType(accountsDto.getAccountType());
-        accountsDto.setBranchAddress(accountsDto.getBranchAddress());
+        accountsDto.setAccountNumber(accounts.getAccountNumber());
+        accountsDto.setAccountType(accounts.getAccountType());
+        accountsDto.setBranchAddress(accounts.getBranchAddress());
         return accountsDto;
     }
 

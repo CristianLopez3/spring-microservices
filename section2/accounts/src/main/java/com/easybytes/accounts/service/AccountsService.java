@@ -9,6 +9,25 @@ public interface AccountsService {
      */
     void createdAccount(CustomerDto customerDto);
 
+    /**
+     * @param mobileNumber - Input Mobile Number
+     * @return accounts details based on a given mobileNumber
+     */
+    CustomerDto fetchAccount(String mobileNumber);
 
+
+    /**
+     * @param customerDto - CustomerDto Object
+     * @return boolean indicating if the update of the Account details is successful or not
+     */
+    boolean updateAccount(CustomerDto customerDto);
+
+
+    /**
+     *
+     * @param mobileNumber
+     * @return boolean indicating if the deletion of the Account is successful or not
+     */
+    boolean deleteAccount(String mobileNumber);
 
 }
