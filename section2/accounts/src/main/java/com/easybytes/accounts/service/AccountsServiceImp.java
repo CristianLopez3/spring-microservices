@@ -1,6 +1,5 @@
 package com.easybytes.accounts.service;
 
-import com.easybytes.accounts.constants.AccountsConstants;
 import com.easybytes.accounts.dto.AccountsDto;
 import com.easybytes.accounts.dto.CustomerDto;
 import com.easybytes.accounts.entity.Accounts;
@@ -14,7 +13,6 @@ import com.easybytes.accounts.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Random;
 
 import static com.easybytes.accounts.constants.AccountsConstants.ADDRESS;
@@ -36,8 +34,6 @@ public class AccountsServiceImp implements AccountsService {
                 .ifPresent(customer1 -> {
                     throw new CustomerAlreadyExistsException("Customer already exists");
                 });
-        customer.setCreatedAt(LocalDateTime.now());
-        customer.setCreatedBy("Anonymous");
         Customer savedCustomer = customerRepository.save(customer);
         accountsRepository.save(createNewAccount(savedCustomer));
     }
@@ -102,7 +98,7 @@ public class AccountsServiceImp implements AccountsService {
 
 
     /**
-     * @param customer
+     * @param customer - the customer details
      * @return the new account details
      */
     private Accounts createNewAccount(Customer customer) {
@@ -113,8 +109,6 @@ public class AccountsServiceImp implements AccountsService {
         newAccount.setAccountNumber(randomAccountNumber);
         newAccount.setAccountType(SAVINGS);
         newAccount.setBranchAddress(ADDRESS);
-        newAccount.setCreatedAt(LocalDateTime.now());
-        newAccount.setCreatedBy("Anonymous");
 
         return newAccount;
     }

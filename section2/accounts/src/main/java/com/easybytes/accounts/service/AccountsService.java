@@ -25,7 +25,7 @@ public interface AccountsService {
 
     /**
      *
-     * @param mobileNumber
+     * @param mobileNumber - receive the mobile number of the Account to be deleted
      * @return boolean indicating if the deletion of the Account is successful or not
      */
     boolean deleteAccount(String mobileNumber);
