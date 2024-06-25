@@ -1,39 +1,82 @@
-### Docker commands 🐋
+# MICROSERVICE BANK
 
-To generate automatic images without a docker file you can use **jib** or **build packs**
+Section 4 of microservices course, implementation of docker, spring boot, and microservices.
+
+## Getting Started
+
+Instructions to set up your project locally for development and testing purposes.
+
+## Docker 🐋
+
+### Docker Commands 🧰
+
+To generate automatic images without a Dockerfile, you can use **jib** or **build packs**.
 
 ```shell
+# List Docker images
 docker images
-# -t = tag
+
+# Build Docker image with tag
 docker build . -t cristianlopezcma/accounts:s4
-# -p = port, -d = detach (run in background), --name = name of the container
+
+# Run Docker container in detached mode
 docker run -p 8082:8082 -d cristianlopezcma/accounts:s4
+
+# Inspect a Docker container
 docker inspect <container_id>
-# -a = all, -q = quiet
-docker ps
+
+# List Docker processes
+docker ps -a -q
 ```
 
-Create a **image with Maven**:
-```shell
-mvn spring-boot:build-image # build packer use case
-mvn compile jib:dockerBuild # jib use case
-```
-
->[!IMPORTANT]
-> Use jib if you don't want to create a Dockerfile, it is a good practice to use jib to create images, and if you don't have docker in your system jib is a good option.
-
-### Maven commands 🧰
+### Creating an Image with Maven
 
 ```shell
-# Look at the pom.xml file of loans to see the build configuration for the image
+# Using build pack
 mvn spring-boot:build-image
+
+# Using jib
+mvn compile jib:dockerBuild
+```
+
+> [!NOTE]
+> Use jib if you don't want to create a Dockerfile. It's a good practice to use jib to create images, especially if you don't have Docker installed on your system.
+
+### Pushing to Docker Hub 🚀
+
+```shell
+# Login to Docker Hub
+docker login
+
+# Push the image to Docker Hub
+docker push cristianlopezcma/accounts:s4
+
+# Pull the image from Docker Hub
+docker pull cristianlopezcma/accounts:s4
+```
+
+### Docker Compose 🐋
+
+The docker compose for this project is inside the accounts folder...
+
+```shell
+# -d = detached mode
+docker compose up # start the containers
+```
+
+## Maven 🧰
+
+```shell
+# Build image with Maven
+mvn spring-boot:build-image
+
+# Clean, install, and package with Maven
 mvn clean install package
 ```
 
->[!NOTE]
-> You can build a image with a Dockerfile, using buildpacks or using the plugin of spring-boot.
+> **Note:** You can build an image with a Dockerfile, using build packs, or using the Spring Boot plugin.
 
-### Dependencies
+## Dependencies
 
 ```shell
 spring web
@@ -45,10 +88,9 @@ devtools
 validation
 ```
 
+## Tips
 
-### Tips
+Be careful with the libraries you use in your project. Some of them can be harmful to your project if they are not recognized by Spring, as they could cause problems in the future because they are open source.
 
-Take care with the libraries that you are using in your project. Some of them can be harmful to your project, because
-if they are not recognized by spring, it could cause some problems in the future because they are open source.
+**Model Mapper:** Use this to map the entity to DTO and vice versa. It's a good practice to use this library to avoid boilerplate code.
 
-**Model Mapper**: use this to map the entity to dto and vice versa. It is a good practice to use this library to avoid boilerplate code.
