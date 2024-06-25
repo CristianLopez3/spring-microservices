@@ -1,5 +1,7 @@
 ### Docker commands 🐋
 
+To generate automatic images without a docker file you can use **jib** or **build packs**
+
 ```shell
 docker images
 # -t = tag
@@ -10,6 +12,15 @@ docker inspect <container_id>
 # -a = all, -q = quiet
 docker ps
 ```
+
+Create a **image with Maven**:
+```shell
+mvn spring-boot:build-image # build packer use case
+mvn compile jib:dockerBuild # jib use case
+```
+
+>[!IMPORTANT]
+> Use jib if you don't want to create a Dockerfile, it is a good practice to use jib to create images, and if you don't have docker in your system jib is a good option.
 
 ### Maven commands 🧰
 
