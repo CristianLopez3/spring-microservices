@@ -1,0 +1,42 @@
+services:
+
+  accounts:
+    image: "cristianlopezcma/accounts:s4"
+    container_name: accounts-ms
+    ports:
+      - "8082:8082"
+    deploy: 
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - eazybank
+
+
+  loans:
+    image: "cristianlopezcma/loans:s4"
+    container_name: loans-ms
+    ports:
+      - "8090:8090"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - eazybank
+
+  cards:
+    image: "cristianlopezcma/cards:s4"
+    container_name: cards-sm
+    ports:
+      - "9000:9000"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - eazybank
+
+networks:
+  eazybank:
+    driver: "bridge"
