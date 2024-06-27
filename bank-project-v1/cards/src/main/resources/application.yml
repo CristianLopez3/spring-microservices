@@ -1,6 +1,15 @@
 server:
   port: 9000
 spring:
+
+  config:
+    import:
+      - "application-test.yml"
+      - "application-prod.yml"
+
+  profiles:
+    active: test
+
   datasource:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
@@ -14,3 +23,15 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+build:
+  version: "1.0"
+
+accounts:
+  message: "Default Profile"
+  contactDetails:
+    name: "Default Elements"
+    email: "default@email.com"
+  onCallSupport:
+    -(555) 342 323
+    -(555) 342 324

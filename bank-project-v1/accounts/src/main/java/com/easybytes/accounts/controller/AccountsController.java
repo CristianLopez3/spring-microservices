@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.logging.Logger;
+
 import static com.easybytes.accounts.constants.AccountsConstants.*;
 
 @Tag(
@@ -33,7 +35,7 @@ import static com.easybytes.accounts.constants.AccountsConstants.*;
 public class AccountsController {
 
     private final AccountsService accountsService;
-
+    private final Logger logger = Logger.getLogger(AccountsController.class.getName());
     private final AccountsContactInfoDto accountsContactInfoDto;
 
     @Operation(
@@ -97,6 +99,7 @@ public class AccountsController {
     @PutMapping
     public ResponseEntity<ResponseDto> updateAccountDetails(@Valid @RequestBody CustomerDto customerDto) {
         boolean isUpdated = accountsService.updateAccount(customerDto);
+        logger.info("Account updated successfully");
         return isUpdated
                 ? ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(STATUS_200, MESSAGE_200))
                 : ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDto(STATUS_417, MESSAGE_417));
@@ -128,6 +131,7 @@ public class AccountsController {
             @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be numeric") String mobileNumber) {
 
         boolean isDeleted = accountsService.deleteAccount(mobileNumber);
+        logger.info("Account deleted successfully");
         return isDeleted
                 ? ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(STATUS_200, MESSAGE_200))
                 : ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDto(STATUS_417, MESSAGE_417));
@@ -136,6 +140,7 @@ public class AccountsController {
 
     @GetMapping("/contact-info")
     public ResponseEntity<AccountsContactInfoDto> getContactInfo() {
+        logger.info("Fetching contact info");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(accountsContactInfoDto);

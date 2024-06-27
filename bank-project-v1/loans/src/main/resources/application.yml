@@ -4,6 +4,8 @@ spring:
     import:
       - "application-test.yml"
       - "application-prod.yml"
+  profiles:
+    active: test
 
   datasource:
     url: jdbc:h2:mem:testdb
@@ -21,3 +23,15 @@ spring:
 
 server:
   port: 8090
+
+build:
+  version: "1.0"
+
+accounts:
+  message: "Default Profile"
+  contactDetails:
+    name: "Default Elements"
+    email: "default@email.com"
+  onCallSupport:
+    -(555) 342 323
+    -(555) 342 324

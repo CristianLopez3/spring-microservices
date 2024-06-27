@@ -9,7 +9,7 @@ build:
 accounts:
   message: "Welcome to eazyback accounts related local APIS from our production"
   contactDetails:
-    name: "Daniel Doe - Product Owner"
+    name: "Daniel DDoe - Product Owner"
     email: "john@email.com"
   onCallSupport:
     -(555) 342 323

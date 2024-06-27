@@ -5,6 +5,8 @@ spring:
       - "application-test.yml"
       - "application-prod.yml"
 
+  profiles:
+    active: test
 
   application:
     name: test
