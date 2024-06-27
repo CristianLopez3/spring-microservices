@@ -1,6 +1,10 @@
-server:
-  port: 8090
 spring:
+
+  config:
+    import:
+      - "application-test.yml"
+      - "application-prod.yml"
+
   datasource:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
@@ -14,3 +18,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+server:
+  port: 8090
