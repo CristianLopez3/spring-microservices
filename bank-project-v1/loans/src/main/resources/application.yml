@@ -1,11 +1,9 @@
 spring:
 
-  config:
-    import:
-      - "application-test.yml"
-      - "application-prod.yml"
+  application:
+    name: "loans"
   profiles:
-    active: test
+    active: "prod"
 
   datasource:
     url: jdbc:h2:mem:testdb
@@ -21,17 +19,9 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  config:
+    import: "configserver:http://localhost:8071/"
+
 server:
   port: 8090
 
-build:
-  version: "1.0"
-
-accounts:
-  message: "Default Profile"
-  contactDetails:
-    name: "Default Elements"
-    email: "default@email.com"
-  onCallSupport:
-    -(555) 342 323
-    -(555) 342 324
