@@ -1,0 +1,81 @@
+services:
+
+  configserver:
+    image: "cristianlopezcma/configserver:s6"
+    container_name: configserver-ms
+    ports:
+      - "8071:8071"
+    healthcheck:
+      test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10s
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - eazybank
+
+  accounts:
+    image: "cristianlopezcma/accounts:s6"
+    container_name: accounts-ms
+    ports:
+      - "8082:8082"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    deploy: 
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - eazybank
+    environment:
+      SPRING_APPLICATION_NAME: "accounts"
+      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
+      SPRING_PROFILES_ACTIVE: "prod"
+
+
+  loans:
+    image: "cristianlopezcma/loans:s4"
+    container_name: loans-ms
+    ports:
+      - "8090:8090"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - eazybank
+    environment:
+      SPRING_APPLICATION_NAME: "loans"
+      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
+      SPRING_PROFILES_ACTIVE: "prod"
+
+  cards:
+    image: "cristianlopezcma/cards:s4"
+    container_name: cards-sm
+    ports:
+      - "9000:9000"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - eazybank
+    environment:
+      SPRING_APPLICATION_NAME: "cards"
+      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
+      SPRING_PROFILES_ACTIVE: "prod"
+
+networks:
+  eazybank:
+    driver: "bridge"
