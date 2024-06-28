@@ -26,8 +26,16 @@ spring:
   config:
     import: "configserver:http://localhost:8071/"
 
-  devtools:
-    livereload:
-      enabled: true
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 
