@@ -24,7 +24,7 @@ spring:
     show-sql: true
 
   config:
-    import: "configserver:http://localhost:8071/"
+    import: "optional:configserver:http://localhost:8071/"
 
   rabbitmq:
     host: "localhost"

@@ -129,7 +129,7 @@
 				<version>3.4.3</version>
 				<configuration>
 					<to>
-						<image>cristianlopezcma/${project.artifactId}:s4</image>
+						<image>cristianlopezcma/${project.artifactId}:s6</image>
 					</to>
 				</configuration>
 			</plugin>
