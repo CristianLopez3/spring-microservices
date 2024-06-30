@@ -1,0 +1,12 @@
+
+build:
+  version: "3.0"
+
+accounts:
+  message: "Welcome to eazyback accounts related local APIS from testing profile"
+  contactDetails:
+    name: "John Doe"
+    email: "john@email.com"
+  onCallSupport:
+    - (555) 342 323
+    - (555) 342 324
